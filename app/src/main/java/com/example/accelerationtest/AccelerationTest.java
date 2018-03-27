@@ -40,57 +40,59 @@ public class AccelerationTest extends Activity implements SensorEventListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 	
-	 //**************  No title and fill the screen, useful bit of code for graphics and games
-	requestWindowFeature(Window.FEATURE_NO_TITLE);
-	getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		 //**************  No title and fill the screen, useful bit of code for graphics and games
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-	super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_acceleration_test);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_acceleration_test);
 
-	x = (TextView) findViewById(R.id.x);
-	y = (TextView) findViewById(R.id.y);
-	z = (TextView) findViewById(R.id.z);
-	x_avg = (TextView) findViewById(R.id.x_avg);
-	y_avg = (TextView) findViewById(R.id.y_avg);
-	z_avg = (TextView) findViewById(R.id.z_avg);
+		x = (TextView) findViewById(R.id.x);
+		y = (TextView) findViewById(R.id.y);
+		z = (TextView) findViewById(R.id.z);
+		x_avg = (TextView) findViewById(R.id.x_avg);
+		y_avg = (TextView) findViewById(R.id.y_avg);
+		z_avg = (TextView) findViewById(R.id.z_avg);
 
-	 //**************  
-	sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		 //**************
+		sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 
-	vals_x = new LinkedList<Float>();
-	vals_y = new LinkedList<Float>();
-	vals_z = new LinkedList<Float>();
+		vals_x = new LinkedList<Float>();
+		vals_y = new LinkedList<Float>();
+		vals_z = new LinkedList<Float>();
 
-	xtotal = (float) 0.0;
-	ytotal = (float) 0.0;
-	ztotal = (float) 0.0;
+		xtotal = (float) 0.0;
+		ytotal = (float) 0.0;
+		ztotal = (float) 0.0;
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-	if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-	    float[] values = event.values;
+		if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			float[] values = event.values;
 
-	    // get movements
-	    float xx = values[0];
-	    float yy = values[1];
-	    float zz = values[2];
+			// get movements
+			float xx = values[0];
+			float yy = values[1];
+			float zz = values[2];
 
-	    // display instant reads
-	    x.setText(Float.toString(xx));
-	    y.setText(Float.toString(yy));
-	    z.setText(Float.toString(zz));
+			// display instant reads
+			x.setText(Float.toString(xx));
+			y.setText(Float.toString(yy));
+			z.setText(Float.toString(zz));
 
-	    xtotal = rollingTotal(xx, vals_x, xtotal);
-	    ytotal = rollingTotal(yy, vals_y, ytotal);
-	    ztotal = rollingTotal(zz, vals_z, ztotal);
+			xtotal = rollingTotal(xx, vals_x, xtotal);
+			ytotal = rollingTotal(yy, vals_y, ytotal);
+			ztotal = rollingTotal(zz, vals_z, ztotal);
 
-	    // display them
-	    x_avg.setText(Float.toString(xtotal / NUMBER_TO_AVERAGE));
-	    y_avg.setText(Float.toString(ytotal / NUMBER_TO_AVERAGE));
-	    z_avg.setText(Float.toString(ztotal / NUMBER_TO_AVERAGE));
-	}
+			// display them
+			x_avg.setText(Float.toString(xtotal / NUMBER_TO_AVERAGE));
+			y_avg.setText(Float.toString(ytotal / NUMBER_TO_AVERAGE));
+			z_avg.setText(Float.toString(ztotal / NUMBER_TO_AVERAGE));
+		}
     }
+
+
 
 	@Override
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -98,12 +100,12 @@ public class AccelerationTest extends Activity implements SensorEventListener {
 	}
 
 	private float rollingTotal(float f, Queue<Float> vals, float total) {
-	if (vals.size() == NUMBER_TO_AVERAGE) {
-	    total -= vals.poll();
-	}
-	vals.add(f);
-	total += f;
-	return total;
+		if (vals.size() == NUMBER_TO_AVERAGE) {
+			total -= vals.poll();
+		}
+		vals.add(f);
+		total += f;
+		return total;
     }
 
 
