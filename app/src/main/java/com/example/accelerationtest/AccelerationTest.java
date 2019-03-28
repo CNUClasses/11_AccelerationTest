@@ -121,10 +121,11 @@ public class AccelerationTest extends Activity implements SensorEventListener {
 
     @Override
     protected void onPause() {
-	// unregister listener
-	super.onPause();
-	sensorManager.unregisterListener(this);
+		// unregister listener
+		super.onPause();
+		sensorManager.unregisterListener(this);
     }
-    
- 
-} 
+
+
+
+}
